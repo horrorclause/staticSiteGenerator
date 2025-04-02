@@ -1,3 +1,7 @@
+'''
+"TextNode" class represents the various types of inline text that can exist in HTML and Markdown.
+'''
+
 from enum import Enum
 
 class TextType(Enum):
@@ -30,7 +34,7 @@ class TextNode():
     def __repr__(self):
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
 
-
+# TODO: Below is for later.
     def handle_textType(text,text_type):
         match text_type:
             case TextType.BOLD_TEXT:
@@ -40,7 +44,7 @@ class TextNode():
             case TextType.CODE_TEXT(text):
                 return code(text)
         
-# TODO: Below is for later.
+
 def bold(text):
     return f'<b>{text.strip("**")}</b>'
 
