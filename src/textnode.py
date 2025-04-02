@@ -14,7 +14,7 @@ class TextNode():
         self.text_type = text_type
         self.url = url
 
-
+    # Checks to see if one node is equal to another
     def __eq__(self, value):
         if not isinstance(value, TextNode):
             return False
@@ -31,7 +31,7 @@ class TextNode():
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
 
 
-    def handle_textType(text,text_type,url):
+    def handle_textType(text,text_type):
         match text_type:
             case TextType.BOLD_TEXT:
                 return bold(text)
