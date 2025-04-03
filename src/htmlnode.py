@@ -24,7 +24,24 @@ class HTMLNode():
         return " ".join(attributes)
     
     def __repr__(self):
-        return f'HTMLNode({repr(self.tag)}, {repr(self.value)}, {repr(self.children)}, {repr(self.props)})'
+        return f'HTMLNode({repr(self.tag)}, {repr(self.value)}, {repr(self.children)}, {repr(self.props)})'    
     
+class LeafNode(HTMLNode):
+    def __init__(self, tag, value, props=None):
+        super().__init__(tag, value, [], props)
 
-    
+    def to_html(self):
+        if self.value is None:
+            raise ValueError("leaf node must have a value.")
+        
+        if self.tag is None:
+            return self.value
+        
+        # Get HTML attributes string (like class="intro" href="link")
+        props_html = self.props_to_html()
+        
+        if props_html:
+            props_html = " " + props_html
+
+        #Construct and return the full HTML tag
+        return f"<{self.tag}{props_html}>{self.value}</{self.tag}>"
