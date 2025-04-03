@@ -36,5 +36,30 @@ class TestHTMLNode(unittest.TestCase):
             "<div><span><b>grandchild</b></span></div>",
         )
 
+    def test_parent_with_single_child(self):
+        child = LeafNode("b", "text")
+        parent = ParentNode("div", [child])
+        self.assertEqual(parent.to_html(), "<div><b>text</b></div>")
+
+    def test_parent_with_multiple_children(self):
+        child1 = LeafNode("b", "bold")
+        child2 = LeafNode("i", "italic")
+        parent = ParentNode("p", [child1, child2])
+        self.assertEqual(parent.to_html(), "<p><b>bold</b><i>italic</i></p>")
+
+    def test_nested_parents(self):
+        grandchild = LeafNode("span", "hello")
+        child = ParentNode("div", [grandchild])
+        parent = ParentNode("section", [child])
+        self.assertEqual(parent.to_html(), "<section><div><span>hello</span></div></section>")
+
+    def test_missing_tag(self):
+        with self.assertRaises(ValueError):
+            ParentNode(None, [LeafNode("b", "text")]).to_html()
+
+    def test_missing_children(self):
+        with self.assertRaises(ValueError):
+            ParentNode("div", None).to_html()
+
 if __name__ == '__main__':
     unittest.main()
