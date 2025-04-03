@@ -70,6 +70,7 @@ class ParentNode(HTMLNode):
 
         return f"<{self.tag}{props_html}>{children_html}</{self.tag}>"
     
+
 def text_node_to_html(text_node):
     match text_node.text_type:
             case TextType.TEXT:
@@ -92,3 +93,5 @@ def text_node_to_html(text_node):
         
             case _:
                 raise Exception("TextNode is none of the TextTypes")
+
+
