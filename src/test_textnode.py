@@ -1,5 +1,6 @@
 import unittest
 from textnode import TextType, TextNode
+from splitDelimiter import split_node_delimiter
 
 class TestTextNode(unittest.TestCase):
     def test_eq(self):
@@ -31,6 +32,17 @@ class TestTextNode(unittest.TestCase):
     def text_repr(self):
         node = TextNode("This is a text node", TextType.TEXT, "https://www.example.org")
         self.assertEqual("TextNode(This is a text node, text, https://www.boot.dev)", repr(node))
+
+    # -------- Adding Tests for split_node_delimiter --------
+
+    def test_basic_single_delimiter(self):
+        node = TextNode("This is `code`.", TextType.TEXT)
+        result = split_node_delimiter([node], "`", TextType.CODE)
+        expected_result = [
+            TextNode("This is ", TextType.TEXT),
+            TextNode("code", TextType.CODE),
+            TextNode(".", TextType.TEXT)
+        ]
 
 if __name__ == '__main__':
     unittest.main()
