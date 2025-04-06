@@ -117,3 +117,25 @@ def split_nodes_link(old_nodes):
             new_nodes.append(TextNode(remaining_text, TextType.TEXT))
     
     return new_nodes
+
+
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]
+    
+    # Apply each splitting function in sequence
+    # For delimiters like bold, italic, code
+    nodes = split_node_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_node_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_node_delimiter(nodes, "`", TextType.CODE)
+    
+    # For more complex patterns like images and links
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    
+    return nodes
+
+
+def markdown_to_blocks(markdown):
+    fixed = [block.strip() for block in markdown.split("\n\n") if block.strip()!= ""]
+    return fixed
+

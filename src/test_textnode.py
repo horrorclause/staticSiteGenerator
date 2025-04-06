@@ -83,5 +83,31 @@ class TestTextNode(unittest.TestCase):
         self.assertListEqual([node], result)
 
 
+    def test_text_only(self):
+        # Test with plain text, no markdown
+        text = "Just plain text"
+        nodes = text_to_textnodes(text)
+        self.assertEqual(len(nodes), 1)
+        self.assertEqual(nodes[0], TextNode("Just plain text", TextType.TEXT))
+    
+    def test_bold(self):
+        # Test with bold text
+        text = "This is **bold** text"
+        nodes = text_to_textnodes(text)
+        self.assertEqual(len(nodes), 3)
+        self.assertEqual(nodes[0], TextNode("This is ", TextType.TEXT))
+        self.assertEqual(nodes[1], TextNode("bold", TextType.BOLD))
+        self.assertEqual(nodes[2], TextNode(" text", TextType.TEXT))
+    
+    def test_italic(self):
+        # Test with italic text
+        text = "This has _italic_ word"
+        nodes = text_to_textnodes(text)
+        self.assertEqual(len(nodes), 3)
+        self.assertEqual(nodes[0], TextNode("This has ", TextType.TEXT))
+        self.assertEqual(nodes[1], TextNode("italic", TextType.ITALIC))
+        self.assertEqual(nodes[2], TextNode(" word", TextType.TEXT))
+
+    
 if __name__ == '__main__':
     unittest.main()
