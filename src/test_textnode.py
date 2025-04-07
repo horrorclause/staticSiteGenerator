@@ -108,6 +108,47 @@ class TestTextNode(unittest.TestCase):
         self.assertEqual(nodes[1], TextNode("italic", TextType.ITALIC))
         self.assertEqual(nodes[2], TextNode(" word", TextType.TEXT))
 
+    # --------- Test for Text Blocks ----------------------------
+
+    def test_paragraph_block(self):
+        block = "This is a simple paragraph.\nIt has multiple lines."
+        self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+    def test_heading_block(self):
+        block = "# This is a heading"
+        self.assertEqual(block_to_block_type(block), BlockType.HEADING)
+        
+        # Test different heading levels
+        block = "## Level 2 heading"
+        self.assertEqual(block_to_block_type(block), BlockType.HEADING)
+        
+        block = "###### Level 6 heading"
+        self.assertEqual(block_to_block_type(block), BlockType.HEADING)
+        
+        # Invalid heading (no space after #)
+        block = "#Invalid heading"
+        self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+    def test_code_block(self):
+        block = "```\ncode block\n```"
+        self.assertEqual(block_to_block_type(block), BlockType.CODE)
+
+    def test_quote_block(self):
+        block = "> This is a quote\n> It spans multiple lines"
+        self.assertEqual(block_to_block_type(block), BlockType.QUOTE)
+        
+        # Invalid quote (second line doesn't start with >)
+        block = "> This starts as a quote\nBut this line isn't"
+        self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
+    def test_unordered_list_block(self):
+        block = "- Item 1\n- Item 2"
+        self.assertEqual(block_to_block_type(block), BlockType.UNORDERED)
+        
+        # Invalid unordered list (no space after -)
+        block = "-Item 1\n-Item 2"
+        self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
+
     
 if __name__ == '__main__':
     unittest.main()
