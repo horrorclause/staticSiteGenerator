@@ -149,6 +149,6 @@ class TestTextNode(unittest.TestCase):
         block = "-Item 1\n-Item 2"
         self.assertEqual(block_to_block_type(block), BlockType.PARAGRAPH)
 
-    
+
 if __name__ == '__main__':
     unittest.main()
